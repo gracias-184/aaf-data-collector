@@ -3,14 +3,15 @@
     "version": "1.0",
     "description": "Collect AAF Information",
 	"permissions": [
-	    "storage",
+	  "storage",
 		"activeTab",
-		"declarativeContent",
-		"tabs","http://aquaf.ssz.kr:8888/dungeon/*"
+    "declarativeContent",
+		"tabs","http://aquaf.ssz.kr:8888/dungeon/*", "http://aquaf.ssz.kr/dungeon/*",
+    "http://aquaf.ssz.kr/battle/*", "http://aquaf.ssz.kr:8888/battle/*"
 	],
 	"background": {
 	    "scripts": ["background.js", "goods.js", "receipt.js", "mygoods.js", "darkmarketgoods.js", "gatheringarea.js"],
-		"persistent":false
+		"persistent":true
 	},
     "page_action": {
         "default_popup": "popup.html",
@@ -24,11 +25,11 @@
 	"content_scripts" :[
        {
          "matches" : [
-           "http://aquaf.ssz.kr:8888/dungeon/*"
+           "http://aquaf.ssz.kr/dungeon/*", "http://aquaf.ssz.kr:8888/dungeon/*",
+           "http://aquaf.ssz.kr/battle/*", "http://aquaf.ssz.kr:8888/battle/*"
          ],
          "js" : ["main.js"],
          "run_at" : "document_idle"
-
        }
      ],
     "icons": {
@@ -36,6 +37,15 @@
       "32": "iconfinder_travel_bag_4677535.png",
       "48": "iconfinder_travel_bag_4677535.png",
       "128": "iconfinder_travel_bag_4677535.png"
+    },
+    "commands": {
+          "_execute_page_action": {
+            "suggested_key": {
+                "default": "Alt+O",
+                "windows": "Alt+O",
+                "mac": "Alt+O"
+            }
+        }
     },
     "manifest_version": 2
 }

@@ -1,15 +1,17 @@
-chrome.runtime.onInstalled.addListener(function() {
-	chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
-      chrome.declarativeContent.onPageChanged.addRules([{
-        conditions: [new chrome.declarativeContent.PageStateMatcher({
-          pageUrl: {hostEquals: 'aquaf.ssz.kr', schemes: ['http'], pathContains: '/dungeon'},
-        })
-        ],
-            actions: [new chrome.declarativeContent.ShowPageAction()]
-      }]);
-    });
-});
-
+var agent = navigator.userAgent.toLowerCase();
+if (agent.indexOf("chrome") != -1) {
+	chrome.runtime.onInstalled.addListener(function() {
+		chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
+	      chrome.declarativeContent.onPageChanged.addRules([{
+	        conditions: [new chrome.declarativeContent.PageStateMatcher({
+	          pageUrl: {hostEquals: 'aquaf.ssz.kr', schemes: ['http']},
+	        })
+	        ],
+	            actions: [new chrome.declarativeContent.ShowPageAction()]
+	      }]);
+	    });
+	});
+}
 chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){
 	//console.log( request, sender, sendResponse );
 	console.log(sender.tab ?
@@ -58,7 +60,7 @@ chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){
 			break;
 		case 'CHECK_DUNGEON_BATTLE':
 			chrome.pageAction.show(sender.tab.id);
-			if(sender.tab.url.includes('dungeon/dunbattle')) {
+			if(sender.tab.url.includes('dungeon/dunbattle') || sender.tab.url.includes('battle/monbattle')) {
 				AddDungeonBattleData(sender.tab.url, sendResponse);
 			}
 			break;
@@ -81,7 +83,6 @@ chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){
 function AddDungeonBattleData(tablink, sendResponse) {
     var resultText = '';  // 몬스터 정보가 담긴 1줄
 //	console.log(tablink);
-
 	chrome.tabs.executeScript({
 		code: 'document.querySelector("body").innerText'
     }, function (result) {
@@ -89,10 +90,10 @@ function AddDungeonBattleData(tablink, sendResponse) {
 		// 지금 상태에서 굳이 추가한다면 수집품, 보석, 루엘정도가 추가가능 할듯함
 		var bodyText = result[0];
 		//console.log(bodyText);
-		
-		if (bodyText.includes(' 와(/과) 조우하였다!!')) {
+		if (bodyText.includes(' 와(/과) 조우하였다!!') || bodyText.includes(' 에게 도전합니다!!')) {
 			// body text parsing
-			var monsterJowText = bodyText.split(' 와(/과) 조우하였다!!');
+			if (bodyText.includes(' 와(/과) 조우하였다!!')) var monsterJowText = bodyText.split(' 와(/과) 조우하였다!!');
+			else var monsterJowText = bodyText.split(' 에게 도전합니다!!');
 			var resultText = monsterJowText[0].split('(은)/는 ');
 			var monsterName = resultText[1];
 			var battleResult = bodyText.includes('전투에서 승리했습니다!!') ? 1 : 0;

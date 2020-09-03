@@ -1,0 +1,63 @@
+{
+    "name": "AAF Data Collector",
+    "version": "1.0",
+    "description": "Collect AAF Information",
+	"permissions": [
+	  "storage",
+		"activeTab",
+		"tabs","http://aquaf.ssz.kr:8888/dungeon/*", "http://aquaf.ssz.kr/dungeon/*",
+    "http://aquaf.ssz.kr/battle/*", "http://aquaf.ssz.kr:8888/battle/*"
+	],
+	"background": {
+	    "scripts": ["background.js", "goods.js", "receipt.js", "mygoods.js", "darkmarketgoods.js", "gatheringarea.js"],
+		"persistent":true
+	},
+    "page_action": {
+        "default_popup": "popup.html",
+		"default_icon": {
+			"16": "iconfinder_travel_bag_4677535.png",
+			"32": "iconfinder_travel_bag_4677535.png",
+			"48": "iconfinder_travel_bag_4677535.png",
+			"128": "iconfinder_travel_bag_4677535.png"
+		}
+    },
+	"content_scripts" :[
+       {
+         "matches" : [
+           "http://aquaf.ssz.kr/dungeon/*", "http://aquaf.ssz.kr:8888/dungeon/*",
+           "http://aquaf.ssz.kr/battle/*", "http://aquaf.ssz.kr:8888/battle/*"
+         ],
+         "js" : ["main.js"],
+         "run_at" : "document_idle"
+       }
+     ],
+    "icons": {
+      "16": "iconfinder_travel_bag_4677535.png",
+      "32": "iconfinder_travel_bag_4677535.png",
+      "48": "iconfinder_travel_bag_4677535.png",
+      "128": "iconfinder_travel_bag_4677535.png"
+    },
+    "browser_action": {
+      "browser_style":true,
+      "default_popup":"popup.html",
+      "default_icon": {
+        "16": "iconfinder_travel_bag_4677535.png",
+        "32": "iconfinder_travel_bag_4677535.png",
+        "48": "iconfinder_travel_bag_4677535.png",
+        "128": "iconfinder_travel_bag_4677535.png"
+      }
+    },
+    "commands":{
+      "_execute_browser_action": {
+        "suggested_key": {
+          "default": "Alt+O"
+        }
+      }
+    },
+    "browser_specific_settins": {
+      "gecko": {
+        "id": "AAF@AAF.com"
+      }
+    },
+    "manifest_version": 2
+}
