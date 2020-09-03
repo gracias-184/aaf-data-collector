@@ -14,12 +14,12 @@ if (agent.indexOf("chrome") != -1) {
 }
 chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){
 	//console.log( request, sender, sendResponse );
-	console.log(sender.tab ?
-                  "background from a content script:" + sender.tab.url :
-                  "background from the extension");
+	//console.log(sender.tab ?
+    //              "background from a content script:" + sender.tab.url :
+    //              "background from the extension");
     switch( request.get ) {
 		case 'CHECK_GATHERING':
-			chrome.pageAction.show(sender.tab.id);
+			//chrome.pageAction.show(sender.tab.id);
 			if(sender.tab.url.includes('dungeon/pick')) {
 				AddGatheringDataVer2(sender.tab.url, sendResponse);
 			}
@@ -59,7 +59,7 @@ chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){
 			GetReceiptByReceiptId(sendResponse, targetReceipts == undefined ? -1 : targetReceipts);
 			break;
 		case 'CHECK_DUNGEON_BATTLE':
-			chrome.pageAction.show(sender.tab.id);
+			//chrome.pageAction.show(sender.tab.id);
 			if(sender.tab.url.includes('dungeon/dunbattle') || sender.tab.url.includes('battle/monbattle')) {
 				AddDungeonBattleData(sender.tab.url, sendResponse);
 			}
@@ -346,12 +346,14 @@ function AddGatheringDataVer2(tablink, sendResponse) {
 		}
 		else if (bodyText.includes(' (으)로부터 !!')){
 			// body text parsing
-			var bodyNum = bodyText.split('(/');
-			var tempText = bodyNum[1].split('!!')
-			resultText = tempText[tempText.length - 1].split(' 을')
-			var resultMaterial = resultText[0].replace(/\n/g,'')  // 줄바꿈 제거
+			//var bodyNum = bodyText.split('(/');
+			var bodyNum = bodyText.split(' (으)로부터 !!');
+			var tempText = bodyNum[1].split(' 을(/를)')
+			//resultText = tempText[tempText.length - 1].split(' 을')
+			//var resultMaterial = resultText[0].replace(/\n/g,'')  // 줄바꿈 제거
+			var resultMaterial = tempText[0];
 			
-			// 몬스터 정보의 최상위 카는 gathering이며 
+			// 개더링 정보의 최상위 카는 gathering이며 
 			// 최상위 key : DataType : 'gathering' , value (MAP(개더링 스팟 번호))
 			// key(개더링 스팟 번호) : value(MAP(개더링 정보)) 형태로 저장되며 모두 map to json 형태로 변환해서 저장한다.
 			var addKey = JSON.stringify({DataType : 'gathering'});
