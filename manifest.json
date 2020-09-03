@@ -1,0 +1,41 @@
+{
+    "name": "AAF Data Collector",
+    "version": "1.0",
+    "description": "Collect AAF Information",
+	"permissions": [
+	    "storage",
+		"activeTab",
+		"declarativeContent",
+		"tabs","http://aquaf.ssz.kr:8888/dungeon/*"
+	],
+	"background": {
+	    "scripts": ["background.js", "goods.js", "receipt.js", "mygoods.js", "darkmarketgoods.js", "gatheringarea.js"],
+		"persistent":false
+	},
+    "page_action": {
+        "default_popup": "popup.html",
+		"default_icon": {
+			"16": "iconfinder_travel_bag_4677535.png",
+			"32": "iconfinder_travel_bag_4677535.png",
+			"48": "iconfinder_travel_bag_4677535.png",
+			"128": "iconfinder_travel_bag_4677535.png"
+		}
+    },
+	"content_scripts" :[
+       {
+         "matches" : [
+           "http://aquaf.ssz.kr:8888/dungeon/*"
+         ],
+         "js" : ["main.js"],
+         "run_at" : "document_idle"
+
+       }
+     ],
+    "icons": {
+      "16": "iconfinder_travel_bag_4677535.png",
+      "32": "iconfinder_travel_bag_4677535.png",
+      "48": "iconfinder_travel_bag_4677535.png",
+      "128": "iconfinder_travel_bag_4677535.png"
+    },
+    "manifest_version": 2
+}

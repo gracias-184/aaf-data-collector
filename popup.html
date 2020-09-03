@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+	body {
+	  height: 500px;
+      width: 550px;
+      outline: none;	
+	}
+    #result {
+      height: 380px;
+      width: 550px;
+	  overflow:auto;
+	  background-color: #fff;
+      border-bottom: 1px solid #e0e0e0;
+    }
+	textarea {
+      height: 15px;
+      width: 100%;
+      font-size:12px;
+	  outline: none;
+	  wrap: off;
+    }
+	button {
+	    color:#fff;
+		border-radius:10px;
+		background-color:#00ced1;
+		text-align:center;
+		margin:4px;
+		display: inline-block;
+		border: none;
+		height: 30px;
+        outline: none;
+	}
+    </style>	
+  </head>
+  <body>
+    <b>아에파 데이터 수집 도우미 (Chrome)</b>
+    <div id="result"></div>
+	<div style="height:25px;">
+		<text style="width:30%;font-size:12px">검색 : </text>
+		<textarea id="targetSpot" style="width:70%"></textarea>
+	</div>
+	<div style="width:100%;float:left"><b>개더링 커맨드</b></div>
+	<div style="width:10%;float:left">
+		<button id="listGatheringDataMineral" style="background-color:#32cd32;" title="채광 트래킹 데이터">채광</button>
+	</div>
+	<div style="width:10%;float:left">
+		<button id="listGatheringDataGem" style="background-color:#32cd32;" title="채굴 트래킹 데이터">채굴</button>
+	</div>
+	<div style="width:10%;float:left">
+		<button id="listGatheringDataGather" style="background-color:#32cd32;" title="채집 트래킹 데이터">채집</button>
+	</div>
+	<div style="width:10%;float:left">
+		<button id="listGatheringDataDig" style="background-color:#32cd32;" title="발굴 트래킹 데이터">발굴</button>
+	</div>
+	<div style="width:20%;float:left">
+		<button id="searchGatheringData" title="스팟별 검색. 검색창에 스팟번호 입력이 필요합니다.">스팟 검색</button>
+	</div>
+	<div style="width:20%;float:left">
+		<button id="searchGatheringOutput" title="결과물로 검색. 검색창에 결과물 입력이 필요합니다.">결과물검색</button>
+	</div>
+
+    <div style="width:20%;float:left">
+		<button id="deleteGatheringData" style="background-color:#ff00ff;" title="특정 1개 스팟의 결과물을 모두 삭제합니다.">스팟 삭제</button>
+	</div>
+	<div style="width:100%;float:left"><b>수집품 커맨드</b></div>
+	<div style="width:8%;float:left">
+		<button id="searchReceipt1" style="background-color:pink;">1단</button>
+	</div>
+	<div style="width:8%;float:left">
+		<button id="searchReceipt2" style="background-color:pink;">2단</button>
+	</div>
+	<div style="width:8%;float:left">
+		<button id="searchReceipt3" style="background-color:pink;">3단</button>
+	</div>
+	<div style="width:8%;float:left">
+		<button id="searchReceipt4" style="background-color:pink;">4단</button>
+	</div>
+	<div style="width:8%;float:left">
+		<button id="searchReceipt5" style="background-color:pink;">5단</button>
+	</div>
+	<div style="width:8%;float:left">
+		<button id="searchReceipt6" style="background-color:pink;">6단</button>
+	</div>	
+	<div style="width:17%;float:left;">
+		<button id="searchMyGoods" title="내가 가진 수집품 리스트를 봅니다 (수작업으로 데이터 업데이트 필요)">내 수집품</button>
+	</div>
+	<div style="width:18%;float:left">
+		<button id="searchGoods" title="검색창에 입력한 특정 수집품 번호의 정보를 봅니다.">수집품정보</button>
+	</div>
+	<div style="width:17%;float:left">
+		<button id="searchDarkMarketGoods" title="암시장 수집품 리스트를 봅니다 (수작업으로 데이터 업데이트 필요)">암시장</button>
+	</div>
+	<div style="width:100%;float:left"><b>몬스터 커맨드</b></div>
+	<div style="width:18%;float:left">
+		<button id="calculateMonsterJow" title="저장된 모든 몬스터 트래킹 정보에서 비율을 추출합니다.">몹 조우율</button>
+	</div>
+	<div style="width:18%;float:left">
+		<button id="searchMonsterJowList" style="background-color:orange;" title="몬스터 트래킹 데이터">몹 리스트</button>
+	</div>
+    <div style="width:20%;float:left">
+		<button id="deleteGatheringDataAll" style="background-color:#f8585b;" title="모든 스팟의 결과물을 삭제합니다.">스팟전체삭제</button>
+	</div>
+	<div style="width:18%;float:left">
+		<button id="deleteMonsterJowList" style="background-color:#f8585b;" title="모든 몬스터 트래킹 결과를 삭제합니다.">몹 전체삭제</button>
+	</div>
+	<div style="width:26%;float:left">
+		<button id="clearList" style="background-color:grey;" title="검색 결과를 화면에서 지웁니다.(트래킹 데이터 지워지는건 아님)">검색결과지우기</button>
+	</div>
+	<script src="popup.js" charset="utf-8"></script>
+  </body>
+</html>
