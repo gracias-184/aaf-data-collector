@@ -15,9 +15,9 @@ if( location.host == 'aquaf.ssz.kr:8888' || location.host == 'aquaf.ssz.kr') {
 }
  
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-	console.log(sender.tab ?
-                  "main.js from a content script:" + sender.tab.url :
-                  "from the extension");
+	//console.log(sender.tab ?
+    //              "main.js from a content script:" + sender.tab.url :
+    //              "from the extension");
     if( request ) {
         switch( request.contents ) {
             case 'CHECK_GATHERING':
