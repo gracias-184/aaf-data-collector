@@ -34,7 +34,6 @@ AAF Data Collector
 * 외부 수행 조우 트래킹 (돈/경험치/승리여부)
 * 개더링 트래킹 정보 전체 삭제, 개별 삭제 기능
 * 몬스터 조우 트래킹 정보 전체 삭제 (개별은 귀찮아서 미개발)
-* 수동 js파일 업데이트 필요 : 내 수집품 정보보기, 암시장 수집품 보기, 레시피 보기
 * 수동 코드 수정 필요 : 개더링 지역 (background.js의 GetGatheringArea 함수)
 * 단축키 (Alt + O)를 통해 확장 기능 창 열고닫기 가능
 
@@ -48,17 +47,13 @@ AAF Data Collector
 
 ### 수정하는 개발자분들의 참고 사항
 * 코드에 주석을 꼼꼼하게 달았으니 참고하시면 됩니다.
-* "goods.js", "receipt.js", "mygoods.js", "darkmarketgoods.js", "gatheringarea.js" 와 같이 특정 정보를 사용하고 싶을때는 manifest.json - background - scripts 항목 에 선언해줘야합니다.
+* "gatheringarea.js" 와 같이 특정 정보를 사용하고 싶을때는 manifest.json - background - scripts 항목 에 선언해줘야합니다.
 * 백그라운드에서 카운팅이 필요한 사항은 main.js에서 이벤트를 정의해서 sendMessage한 이후 background.js에서 처리합니다.
 * 확장기능 아이콘을 눌러서 나오는 기능은 popup.js와 popup.html을 수정합니다.
 * 던전 내에서만 사용 가능하도록 제어하는 부분은 manifest.json에 content_scripts > matches 부분과 background의 declarativeContent 부분입니다. 이 부분을 수정하면 기능들이 정상동작하지 않을수도 있습니다.
 * popup.html : 확장기능 팝업 UI 구성
 * popup.js : 확장기능 팝업 UI에서 발생하는 이벤트 정의
-* goods.js : 수집품 정보를
-* darkmarketgoods.js : 암시장 수집품 정보들
 * gatheringarea.js : 개더링 스팟 지역
-* receipt.js : 레시피 정보들
-* mygoods.js : 내 수집품 정보들
 * background.js : 메시지를 받아서 직접 localstorage에 작업하는 파일
 * main.js : 트래킹할 이벤트를 필터하여 background 메시지를 전송합니다. 참고용으로 확장기능 최초 팝업시 뜨는 리스트는 DOMContentLoaded 이벤트에 정의해놓았습니다.
 * 팝업의 css는 귀찮아서 정리안했으므로, 잘 꾸며주실 분이 있을겁니다.
@@ -75,4 +70,5 @@ https://www.iconfinder.com/iconsets/summertime-6
 ### Release
 Ver 1.0 : 2020-09-01, gracias, 최초 release  
 Ver 1.1 : 2020-09-03, NOZOMI, 단축키 추가 및 외부수행 조우 트래킹 추가, 파이어폭스에서도 사용가능하도록 변경  
-Ver 1.2 : 2020-09-03, gracias, 개더링 어시스트 조수가 있을 경우 개더링 결과가 깨지는 버그 수정. 일부 디버깅 로그 제거 및 일부 수집품, 레시피 정보 업데이트  
+Ver 1.2 : 2020-09-03, gracias, 개더링 어시스트 조수가 있을 경우 개더링 결과가 깨지는 버그 수정. 일부 디버깅 로그 제거 및 일부 수집품, 레시피 정보 업데이트
+Ver 1.3 : 2020-11-23, gracias, 수집품 관련 항목들 제거. 개더링 결과물 검색 안되던 버그 수정.

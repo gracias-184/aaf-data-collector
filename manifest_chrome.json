@@ -1,6 +1,6 @@
 {
     "name": "AAF Data Collector",
-    "version": "1.2",
+    "version": "1.3",
     "description": "Collect AAF Information",
 	"permissions": [
 	  "storage",
@@ -10,7 +10,7 @@
     "http://aquaf.ssz.kr/battle/*", "http://aquaf.ssz.kr:8888/battle/*"
 	],
 	"background": {
-	    "scripts": ["background.js", "goods.js", "receipt.js", "mygoods.js", "darkmarketgoods.js", "gatheringarea.js"],
+	    "scripts": ["background.js", "gatheringarea.js"],
 		"persistent":true
 	},
     "page_action": {

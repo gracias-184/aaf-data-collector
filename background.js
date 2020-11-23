@@ -62,7 +62,7 @@ chrome.runtime.onMessage.addListener(function(request,sender,sendResponse){
 			//chrome.pageAction.show(sender.tab.id);
 			if(sender.tab.url.includes('dungeon/dunbattle') || sender.tab.url.includes('battle/monbattle')) {
 				AddDungeonBattleData(sender.tab.url, sendResponse);
-			}
+			}			
 			break;
 		case 'CALCULATE_DUNGEON_BATTLE':
 			CalculateDungeonBattleData(sendResponse);
@@ -195,7 +195,7 @@ function AddDungeonBattleData(tablink, sendResponse) {
 		else {
 			
 		}
-		sendResponse( { 'CHECK_DUNGEON_BATTLE' : 'ok' } );
+		//sendResponse( { 'CHECK_DUNGEON_BATTLE' : 'ok' } );
     });
 }
 
@@ -620,7 +620,7 @@ function GetGatheringOutputVer2(sendResponse, targetOutput) {
 				existValueMap.forEach((value, key, mapObject) => {
 					var subValueJson = JSON.parse(value);
 					var existSubValueJson = subValueJson.filter(function(item){    
-						return item[0] == targetOutput;
+						return item[0].includes(targetOutput);
 					});  
 					var subValueMap = new Map(existSubValueJson);
 					if (subValueMap.size > 0)	responseHtml += '[' + GetGatheringArea(key) + ']<b>[' + key + ']</b><br />';
@@ -658,191 +658,3 @@ function GetGatheringOutputVer2(sendResponse, targetOutput) {
 	 });
 }
 
-function GetReceiptByReceiptId(sendResponse, targetReceipt) {
-	chrome.tabs.executeScript({
-		code: ''
-	}, function (result) {
-		var responseHtml = '';
-		if (targetReceipt <= -1) {
-			responseHtml += '<b> ' + Math.abs(targetReceipt) + '단 전체 레시피 정보</b> (';
-			responseHtml += '<b><font color=\'#ffa07a\'>암시장+수집품</font>, <font color=\'#ff1493\'>암시장</font>, <font color=\'#87ceeb\'>수집품</font>)</b><br /><br />';
-			var receiptDataList;
-			if (targetReceipt == -2) receiptDataList = getReceipts2List();
-			else if (targetReceipt == -3) receiptDataList = getReceipts3List();
-			else if (targetReceipt == -4) receiptDataList = getReceipts4List();
-			else if (targetReceipt == -5) receiptDataList = getReceipts5List();
-			else if (targetReceipt == -6) receiptDataList = getReceipts6List();
-			else if (targetReceipt == -1) receiptDataList = getReceipts1List();
-			else receiptDataList = getReceipts2List();
-			// object는 아래와 같이 iteration
-			for (const [key, value] of Object.entries(receiptDataList)) {
-				responseHtml += '<b><' + key + '></b> ';
-
-				var check0 = CheckGoodsExist(value.output);
-				if (check0 == 1) responseHtml += '<b><font color=\'#ffa07a\'>[' + value.output + '] ' + getGoodsByGoodsId(value.output) + '</font></b> ';
-				else if (check0 == 2) responseHtml += '<b><font color=\'#ff1493\'>[' + value.output + '] ' + getGoodsByGoodsId(value.output) + '</font></b> ';
-				else if (check0 == 3) responseHtml += '<b><font color=\'#87ceeb\'>[' + value.output + '] ' + getGoodsByGoodsId(value.output) + '</font></b> ';
-				else responseHtml += '<b>[' + value.output + '] ' + getGoodsByGoodsId(value.output) + '</b> ';
-
-				var check1 = CheckGoodsExist(value.goods1);
-				if (check1 == 1) responseHtml += '= <b><font color=\'#ffa07a\'>[' + value.goods1 + '] ' + getGoodsByGoodsId(value.goods1) + '</font></b> (x' +	value.goods1cnt + ')';
-				else if (check1 == 2) responseHtml += '= <b><font color=\'#ff1493\'>[' + value.goods1 + '] ' + getGoodsByGoodsId(value.goods1) + '</font></b> (x' +	value.goods1cnt + ')';
-				else if (check1 == 3) responseHtml += '= <b><font color=\'#87ceeb\'>[' + value.goods1 + '] ' + getGoodsByGoodsId(value.goods1) + '</font></b> (x' +	value.goods1cnt + ')';
-				else responseHtml += '= [' + value.goods1 + '] ' + getGoodsByGoodsId(value.goods1) + ' (x' +	value.goods1cnt + ')';
-				
-				if (targetReceipt <= -2) {
-					var check2 = CheckGoodsExist(value.goods2);
-					if (check2 == 1) responseHtml += '+ <b><font color=\'#ffa07a\'>[' + value.goods2 + '] ' + getGoodsByGoodsId(value.goods2) + '</font></b> (x' +	value.goods2cnt + ')';
-					else if (check2 == 2) responseHtml += '+ <b><font color=\'#ff1493\'>[' + value.goods2 + '] ' + getGoodsByGoodsId(value.goods2) + '</font></b> (x' +	value.goods2cnt + ')';
-					else if (check2 == 3) responseHtml += '+ <b><font color=\'#87ceeb\'>[' + value.goods2 + '] ' + getGoodsByGoodsId(value.goods2) + '</font></b> (x' +	value.goods2cnt + ')';
-					else responseHtml += '+ [' + value.goods2 + '] ' + getGoodsByGoodsId(value.goods2) + ' (x' +	value.goods2cnt + ')';
-				}
-				
-				if (targetReceipt <= -3) {
-					var check3 = CheckGoodsExist(value.goods3);
-					if (check3 == 1) responseHtml += '+ <b><font color=\'#ffa07a\'>[' + value.goods3 + '] ' + getGoodsByGoodsId(value.goods3) + '</font></b> (x' +	value.goods3cnt + ')';
-					else if (check3 == 2) responseHtml += '+ <b><font color=\'#ff1493\'>[' + value.goods3 + '] ' + getGoodsByGoodsId(value.goods3) + '</font></b> (x' +	value.goods3cnt + ')';
-					else if (check3 == 3) responseHtml += '+ <b><font color=\'#87ceeb\'>[' + value.goods3 + '] ' + getGoodsByGoodsId(value.goods3) + '</font></b> (x' +	value.goods3cnt + ')';
-					else responseHtml += '+ [' + value.goods3 + '] ' + getGoodsByGoodsId(value.goods3) + ' (x' +	value.goods3cnt + ')';
-				}
-				
-				if (targetReceipt <= -4) {
-					var check4 = CheckGoodsExist(value.goods4);
-					if (check4 == 1) responseHtml += '+ <b><font color=\'#ffa07a\'>[' + value.goods4 + '] ' + getGoodsByGoodsId(value.goods4) + '</font></b> (x' +	value.goods4cnt + ')';
-					else if (check4 == 2) responseHtml += '+ <b><font color=\'#ff1493\'>[' + value.goods4 + '] ' + getGoodsByGoodsId(value.goods4) + '</font></b> (x' +	value.goods4cnt + ')';
-					else if (check4 == 3) responseHtml += '+ <b><font color=\'#87ceeb\'>[' + value.goods4 + '] ' + getGoodsByGoodsId(value.goods4) + '</font></b> (x' +	value.goods4cnt + ')';
-					else responseHtml += '+ [' + value.goods4 + '] ' + getGoodsByGoodsId(value.goods4) + ' (x' +	value.goods4cnt + ')';
-				}
-				
-				if (targetReceipt <= -5) {
-					var check5 = CheckGoodsExist(value.goods5);
-					if (check5 == 1) responseHtml += '+ <b><font color=\'#ffa07a\'>[' + value.goods5 + '] ' + getGoodsByGoodsId(value.goods5) + '</font></b> (x' +	value.goods5cnt + ')';
-					else if (check5 == 2) responseHtml += '+ <b><font color=\'#ff1493\'>[' + value.goods5 + '] ' + getGoodsByGoodsId(value.goods5) + '</font></b> (x' +	value.goods5cnt + ')';
-					else if (check5 == 3) responseHtml += '+ <b><font color=\'#87ceeb\'>[' + value.goods5 + '] ' + getGoodsByGoodsId(value.goods5) + '</font></b> (x' +	value.goods5cnt + ')';
-					else responseHtml += '+ [' + value.goods5 + '] ' + getGoodsByGoodsId(value.goods5) + ' (x' +	value.goods5cnt + ')';
-				}
-				
-				if (targetReceipt <= -6) {
-					var check6 = CheckGoodsExist(value.goods6);
-					if (check6 == 1) responseHtml += '+ <b><font color=\'#ffa07a\'>[' + value.goods6 + '] ' + getGoodsByGoodsId(value.goods6) + '</font></b> (x' +	value.goods6cnt + ')';
-					else if (check6 == 2) responseHtml += '+ <b><font color=\'#ff1493\'>[' + value.goods6 + '] ' + getGoodsByGoodsId(value.goods6) + '</font></b> (x' +	value.goods6cnt + ')';
-					else if (check6 == 3) responseHtml += '+ <b><font color=\'#87ceeb\'>[' + value.goods6 + '] ' + getGoodsByGoodsId(value.goods6) + '</font></b> (x' +	value.goods6cnt + ')';
-					else responseHtml += '+ [' + value.goods6 + '] ' + getGoodsByGoodsId(value.goods6) + ' (x' +	value.goods6cnt + ')';
-				}
-				responseHtml += '<br /><br />';
-			}
-		}
-		else {
-			var receiptData = getReceipts2ByReceiptId(targetReceipt);
-			console.log(receiptData);
-			
-			responseHtml += '<b>' + targetReceipt + '의 레시피 정보</b><br />';
-			responseHtml += '<b><font color=\'red\'>[' + receiptData.output + '] ' + getGoodsByGoodsId(receiptData.output) + '</font></b> ';
-			responseHtml += '= <br /><b>[' + receiptData.goods1 + '] ' + getGoodsByGoodsId(receiptData.goods1) + '</b> (x' +	receiptData.goods1cnt + ')';
-			responseHtml += '<br />+ <b>[' + receiptData.goods2 + '] ' + getGoodsByGoodsId(receiptData.goods2) + '</b> (x' +	receiptData.goods2cnt + ')';
-			responseHtml += '<br />';
-		}
-		//console.log( 'responseHtml : ', responseHtml);
-
-		
-		var views = chrome.extension.getViews({
-			type: "popup"
-		});
-		for (var i = 0; i < views.length; i++) {
-			views[i].document.getElementById('result').innerHTML = responseHtml;
-		}
-		
-		sendResponse( { 'GET_GOODS' : 'ok' } );
-	});	
-}
-
-function GetGoodsData(sendResponse, targetGoods) {
-	chrome.tabs.executeScript({
-		code: ''
-	}, function (result) {
-		var goodsData = getGoodsByGoodsId(targetGoods);
-		
-		var responseHtml = '';
-		responseHtml += '<h4>[' + targetGoods + ']의 수집품 정보</h4><br />';
-		responseHtml += '<b>' + goodsData + '</b><br />';
-		//console.log( 'responseHtml : ', responseHtml);
-		
-		var views = chrome.extension.getViews({
-			type: "popup"
-		});
-		for (var i = 0; i < views.length; i++) {
-			views[i].document.getElementById('result').innerHTML = responseHtml;
-		}
-		
-		sendResponse( { 'GET_GOODS' : 'ok' } );
-	});	
-}
-
-function GetDarkMarketGoodsData(sendResponse, targetGoods) {
-	chrome.tabs.executeScript({
-		code: ''
-	}, function (result) {
-		var darkMarketGoodsDataList = getDarkMarketGoodsList();
-		//console.log(myGoodsDataList);
-		
-		var responseHtml = '';
-		responseHtml += '<b>암시장 수집품 정보</b><br />';
-		responseHtml += '<b><font color=\'red\'>[' + getDarkMarketLastUpdated() + '에 마지막 업데이트 됨]</font></b><br />';
-		// object는 아래와 같이 iteration
-		for (const [key, value] of Object.entries(darkMarketGoodsDataList)) {
-			responseHtml += '<b>[' + key + '] ' + getGoodsByGoodsId(key) + '</b> ' + value.cnt + '개<br />';
-		}
-		
-		//console.log( 'responseHtml : ', responseHtml);
-		
-		var views = chrome.extension.getViews({
-			type: "popup"
-		});
-		for (var i = 0; i < views.length; i++) {
-			views[i].document.getElementById('result').innerHTML = responseHtml;
-		}
-		
-		sendResponse( { 'GET_DARK_MARKET_GOODS' : 'ok' } );
-	});	
-}
-
-function GetMyGoodsData(sendResponse) {
-	chrome.tabs.executeScript({
-		code: ''
-	}, function (result) {
-		var myGoodsDataList = getMyGoodsList();
-		//console.log(myGoodsDataList);
-		
-		var responseHtml = '';
-		responseHtml += '<b>내가 가진 수집품 정보</b><br />';
-		responseHtml += '<b><font color=\'red\'>[' + getMyGoodsLastUpdated() + '에 마지막 업데이트 됨]</font></b><br />';
-		// object는 아래와 같이 iteration
-		for (const [key, value] of Object.entries(myGoodsDataList)) {
-			responseHtml += '<b>[' + key + '] ' + getGoodsByGoodsId(key) + '</b> ' + value.cnt + '개<br />';
-		}
-		
-		//console.log( 'responseHtml : ', responseHtml);
-		
-		var views = chrome.extension.getViews({
-			type: "popup"
-		});
-		for (var i = 0; i < views.length; i++) {
-			views[i].document.getElementById('result').innerHTML = responseHtml;
-		}
-		
-		sendResponse( { 'GET_MY_GOODS' : 'ok' } );
-	});	
-}
-
-function CheckGoodsExist(goodsId) {
-	var darkMarketCheck = checkDarkMarketGoodsByGoodsId(goodsId);
-	var myGoodsCheck = checkMyGoodsByGoodsId(goodsId);
-	if ( darkMarketCheck) {
-		if( myGoodsCheck) return 1;  // 암시장에도 있고 나한테도 있는거
-		else return 2;  // 암시장에 있고, 나한테 없는거
-	}
-	else {
-		if( myGoodsCheck) return 3;  // 암시장엔 없고 나한테는 있는거
-		else return 4;		  // 둘다 없음
-	}
-}
